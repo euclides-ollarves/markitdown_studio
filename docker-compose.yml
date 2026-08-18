@@ -1,0 +1,9 @@
+services:
+  markitdown-studio:
+    build: .
+    container_name: markitdown_studio
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: unless-stopped

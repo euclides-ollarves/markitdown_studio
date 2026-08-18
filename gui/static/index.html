@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarkItDown Studio — Universal Document to Markdown Converter</title>
+  <meta name="description" content="Interfaz gráfica moderna para Microsoft MarkItDown. Convierte PDF, Word, Excel, PowerPoint, Audio, Imágenes y URLs a Markdown limpio en segundos.">
+
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Highlight.js for Syntax Highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- Marked.js for Live Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- JSZip for Batch ZIP Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- Application Styles -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow -->
+  <div class="ambient-glow">
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="logo-badge" title="Microsoft MarkItDown Studio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h1>MarkItDown Studio</h1>
+          <p>Universal Document & Media to Markdown Converter</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="engine-status" title="MarkItDown Engine Active">
+          <span class="status-dot"></span>
+          <span>Engine v0.1.7 Ready</span>
+        </div>
+        
+        <button class="icon-button" id="btn-formats" title="Supported Formats & Specs">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
+
+        <button class="icon-button" id="btn-history" title="Session Conversion History">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </button>
+
+        <button class="icon-button" id="btn-settings" title="AI & Azure Engine Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+
+        <button class="icon-button" id="btn-theme-toggle" title="Toggle Theme (Dark / Light)">
+          <!-- Dynamic Theme Icon -->
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="mode-tabs" aria-label="Conversion Modes">
+      <button class="tab-btn active" data-tab="panel-single">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+        <span>Convert Document</span>
+      </button>
+      <button class="tab-btn" data-tab="panel-batch">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <span>Batch Converter</span>
+        <span class="tab-badge">Multi-file</span>
+      </button>
+      <button class="tab-btn" data-tab="panel-url">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>URL & YouTube</span>
+      </button>
+    </nav>
+
+    <!-- Panel 1: Single Document Upload -->
+    <section class="panel-content active" id="panel-single">
+      <input type="file" id="file-input" style="display: none;" accept=".pdf,.docx,.doc,.pptx,.ppt,.xlsx,.xls,.csv,.json,.xml,.html,.htm,.txt,.epub,.msg,.png,.jpg,.jpeg,.mp3,.wav,.zip">
+      
+      <div class="dropzone-wrapper" id="dropzone">
+        <div class="dropzone-content">
+          <div class="dropzone-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          
+          <h2 class="dropzone-title">Drag & Drop any document here</h2>
+          <p class="dropzone-subtitle">or click to browse your files from your computer</p>
+
+          <button class="btn-primary" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            <span>Select File</span>
+          </button>
+
+          <!-- Format tags list -->
+          <div class="format-pills-list">
+            <span class="format-pill featured">PDF</span>
+            <span class="format-pill featured">DOCX / Word</span>
+            <span class="format-pill featured">PPTX / PowerPoint</span>
+            <span class="format-pill featured">XLSX / Excel</span>
+            <span class="format-pill">CSV / JSON / XML</span>
+            <span class="format-pill">Audio (.mp3/.wav)</span>
+            <span class="format-pill">Images (.png/.jpg)</span>
+            <span class="format-pill">EPUB</span>
+            <span class="format-pill">ZIP</span>
+          </div>
+
+          <!-- Quick Samples -->
+          <div class="quick-samples">
+            <span>Or try an instant sample:</span>
+            <a href="#" class="sample-link" data-sample="report">Financial Report (.xlsx)</a>
+            <a href="#" class="sample-link" data-sample="code">Data Pipeline Spec (.json)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel 2: Batch Processing -->
+    <section class="panel-content" id="panel-batch">
+      <input type="file" id="batch-file-input" style="display: none;" multiple>
+      
+      <div class="dropzone-wrapper" id="batch-dropzone">
+        <div class="dropzone-content">
+          <div class="dropzone-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              <line x1="12" y1="11" x2="12" y2="17"></line>
+              <line x1="9" y1="14" x2="15" y2="14"></line>
+            </svg>
+          </div>
+          <h2 class="dropzone-title">Batch Document Processing</h2>
+          <p class="dropzone-subtitle">Drop multiple files simultaneously to convert all at once and export as a ZIP archive.</p>
+          <button class="btn-primary" type="button">
+            <span>Select Multiple Files</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Batch Queue Table -->
+      <div class="batch-queue-container" id="batch-queue-box">
+        <div class="batch-queue-header">
+          <h3 style="font-size: 1.1rem; font-weight: 700;">Conversion Queue</h3>
+          <div id="batch-controls" style="display: none; gap: 0.5rem;">
+            <button class="btn-primary" id="btn-process-batch">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Convert All</span>
+            </button>
+            <button class="btn-secondary" id="btn-download-zip" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download ZIP (.zip)</span>
+            </button>
+            <button class="btn-secondary" id="btn-clear-batch">Clear</button>
+          </div>
+        </div>
+
+        <table class="batch-table">
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Size</th>
+              <th>Status</th>
+              <th>Est. Tokens</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="batch-table-body">
+            <tr>
+              <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                No files in queue. Drag & drop files above to get started.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Panel 3: URL & YouTube -->
+    <section class="panel-content" id="panel-url">
+      <div class="url-card">
+        <h2 style="font-size: 1.35rem; font-weight: 700;">Extract Webpage & YouTube to Markdown</h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">
+          Enter any URL to extract clean semantic content, articles, or YouTube video audio transcriptions.
+        </p>
+
+        <div class="url-input-group">
+          <div class="input-icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <input type="url" id="url-input" class="app-input" placeholder="https://en.wikipedia.org/wiki/Artificial_intelligence or https://youtube.com/watch?v=...">
+          </div>
+          <button class="btn-primary" id="btn-convert-url" style="white-space: nowrap;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Convert URL</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading Indicator -->
+    <div class="loading-indicator" id="loading-indicator">
+      <div class="spinner"></div>
+      <h3 style="font-size: 1.1rem; font-weight: 700;" id="loading-text">Converting document...</h3>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.4rem;">Analyzing structure, tables, and media formatting...</p>
+    </div>
+
+    <!-- Results Section: Split Dual-View Markdown Workspace -->
+    <section class="results-wrapper" id="results-wrapper">
+      
+      <!-- Metrics Toolbar -->
+      <div class="metrics-toolbar">
+        <div class="doc-info-meta">
+          <div class="doc-type-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div>
+            <div class="doc-name-title" id="stat-doc-name">document.pdf</div>
+            <div style="font-size: 0.72rem; color: var(--accent-emerald); font-weight: 600;">✓ Conversion Complete</div>
+          </div>
+        </div>
+
+        <div class="doc-stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Words</span>
+            <span class="stat-value" id="stat-words">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Characters</span>
+            <span class="stat-value" id="stat-chars">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Est. LLM Tokens</span>
+            <span class="stat-value highlight-token" id="stat-tokens">~0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Speed</span>
+            <span class="stat-value highlight-time" id="stat-time">0 ms</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Size In → Out</span>
+            <span class="stat-value" id="stat-size">0 KB → 0 KB</span>
+          </div>
+        </div>
+
+        <div class="results-action-buttons">
+          <div class="view-mode-toggle">
+            <button class="view-toggle-btn active" data-view="split" title="Split Screen Side-by-Side">Split</button>
+            <button class="view-toggle-btn" data-view="rendered" title="Rendered HTML View Only">Preview</button>
+            <button class="view-toggle-btn" data-view="raw" title="Raw Markdown Code Only">Raw</button>
+          </div>
+
+          <button class="btn-secondary" id="btn-copy-md" title="Copy Markdown text to clipboard">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copy</span>
+          </button>
+          
+          <button class="btn-primary" id="btn-download-md" title="Download as .md file">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>.md</span>
+          </button>
+
+          <button class="btn-secondary" id="btn-download-html" title="Export as standalone HTML page">
+            <span>.html</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Dual Panes -->
+      <div class="preview-panes-container" id="preview-panes">
+        <!-- Rendered View Pane -->
+        <div class="preview-pane pane-rendered">
+          <div class="pane-header">
+            <div class="pane-header-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+              <span>Rendered Preview</span>
+            </div>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">Live HTML Output</span>
+          </div>
+          <div class="pane-body">
+            <div class="rendered-markdown" id="rendered-content"></div>
+          </div>
+        </div>
+
+        <!-- Raw Markdown Code Pane -->
+        <div class="preview-pane pane-raw">
+          <div class="pane-header">
+            <div class="pane-header-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Raw Markdown Source</span>
+            </div>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">GFM Syntax</span>
+          </div>
+          <div class="pane-body" style="padding: 0.75rem;">
+            <textarea class="raw-markdown-textarea" id="raw-markdown-textarea" readonly spellcheck="false"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Engine & AI Configuration</h3>
+        <button class="icon-button close-modal-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>API Key (OpenRouter / OpenAI)</label>
+          <input type="password" id="setting-llm-key" class="app-input" placeholder="sk-or-v1-...">
+          <span class="form-help">Clave API para OCR de imágenes, transcripción y visión multimodal.</span>
+        </div>
+
+        <div class="form-group">
+          <label>LLM Base URL</label>
+          <input type="text" id="setting-llm-base" class="app-input" placeholder="https://openrouter.ai/api/v1">
+          <span class="form-help">Usa <code>https://openrouter.ai/api/v1</code> para OpenRouter o <code>http://localhost:11434/v1</code> para Ollama.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Modelo de Visión / LLM</label>
+          <input type="text" id="setting-llm-model" class="app-input" placeholder="openai/gpt-4o-mini">
+          <div style="display: flex; gap: 0.35rem; margin-top: 0.35rem; flex-wrap: wrap;">
+            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='openai/gpt-4o-mini'">gpt-4o-mini</button>
+            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='qwen/qwen-2-vl-72b-instruct'">qwen-2-vl-72b</button>
+            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='google/gemini-2.0-flash-001'">gemini-2.0-flash</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Prompt Personalizado para Extracción de Imágenes (Opcional)</label>
+          <input type="text" id="setting-llm-prompt" class="app-input" placeholder="Extrae y transcribe todo el texto, tablas y datos en formato Markdown...">
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
+
+        <div class="form-group">
+          <label>Azure Content Understanding Endpoint</label>
+          <input type="text" id="setting-cu-endpoint" class="app-input" placeholder="https://<resource>.cognitiveservices.azure.com/">
+        </div>
+
+        <div class="form-group">
+          <label>Azure Content Understanding Analyzer ID</label>
+          <input type="text" id="setting-cu-analyzer" class="app-input" placeholder="prebuilt-documentSearch">
+        </div>
+
+        <div class="form-group">
+          <label>Azure Document Intelligence Endpoint</label>
+          <input type="text" id="setting-docintel-endpoint" class="app-input" placeholder="https://<resource>.cognitiveservices.azure.com/">
+        </div>
+
+        <div class="switch-wrapper">
+          <div>
+            <label style="display: block; font-weight: 700;">Enable MarkItDown Plugins</label>
+            <span class="form-help">Allow 3rd-party installed converters like markitdown-ocr.</span>
+          </div>
+          <input type="checkbox" id="setting-enable-plugins" checked style="width: 20px; height: 20px; accent-color: var(--accent-primary);">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary close-modal-btn">Cancel</button>
+        <button class="btn-primary" id="btn-save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formats Modal -->
+  <div class="modal-overlay" id="formats-modal">
+    <div class="modal-box" style="max-width: 720px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Supported Document Formats & Capabilities</h3>
+        <button class="icon-button close-modal-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div style="background: var(--bg-surface-secondary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <strong style="color: var(--accent-primary); font-size: 0.95rem;">📄 Documents</strong>
+            <ul style="padding-left: 1.2rem; font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">
+              <li><strong>PDF</strong>: Structured text, tables, headers, metadata.</li>
+              <li><strong>Word (.docx, .doc)</strong>: Full styling, lists, headings.</li>
+              <li><strong>PowerPoint (.pptx, .ppt)</strong>: Slide-by-slide text & shapes.</li>
+              <li><strong>EPub</strong>: Complete e-book chapter extraction.</li>
+              <li><strong>Outlook (.msg)</strong>: Email subjects, headers, bodies.</li>
+            </ul>
+          </div>
+
+          <div style="background: var(--bg-surface-secondary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <strong style="color: var(--accent-cyan); font-size: 0.95rem;">📊 Data & Spreadsheets</strong>
+            <ul style="padding-left: 1.2rem; font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">
+              <li><strong>Excel (.xlsx, .xls)</strong>: Sheet-to-Markdown tables.</li>
+              <li><strong>CSV / TSV</strong>: Clean Markdown tables.</li>
+              <li><strong>JSON & XML</strong>: Structured formatted blocks.</li>
+              <li><strong>Jupyter (.ipynb)</strong>: Code & markdown cells.</li>
+            </ul>
+          </div>
+
+          <div style="background: var(--bg-surface-secondary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <strong style="color: var(--accent-emerald); font-size: 0.95rem;">🎙️ Audio & 🖼️ Images</strong>
+            <ul style="padding-left: 1.2rem; font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">
+              <li><strong>Audio (.mp3, .wav)</strong>: Speech transcription & EXIF.</li>
+              <li><strong>Images (.png, .jpg)</strong>: EXIF metadata + Vision OCR.</li>
+              <li><strong>ZIP Archives</strong>: Recursively converts inner files.</li>
+            </ul>
+          </div>
+
+          <div style="background: var(--bg-surface-secondary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <strong style="color: var(--accent-amber); font-size: 0.95rem;">🌐 Web & Streaming</strong>
+            <ul style="padding-left: 1.2rem; font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">
+              <li><strong>HTML Pages</strong>: Reader mode markdown conversion.</li>
+              <li><strong>YouTube Videos</strong>: Automatic transcript extraction.</li>
+              <li><strong>Wikipedia & RSS</strong>: Structured knowledge extract.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary close-modal-btn">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div class="modal-overlay" id="history-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Session Conversion History</h3>
+        <button class="icon-button close-modal-btn">✕</button>
+      </div>
+      <div class="modal-body" id="history-list">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary close-modal-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
