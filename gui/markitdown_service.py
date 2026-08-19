@@ -85,10 +85,31 @@ class MarkItDownService:
         llm_base_url: Optional[str] = None,
         llm_model: Optional[str] = None,
     ) -> tuple[str, str, str]:
-        """Resolve LLM credentials with fallback to default OpenRouter settings."""
-        key = (llm_api_key or "").strip() or os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY") or ""
-        base = (llm_base_url or "").strip() or os.getenv("OPENROUTER_BASE_URL") or os.getenv("OPENAI_BASE_URL") or DEFAULT_OPENROUTER_BASE
-        model = (llm_model or "").strip() or os.getenv("OPENROUTER_MODEL") or os.getenv("OPENAI_MODEL") or DEFAULT_OPENROUTER_MODEL
+        """Resolve LLM credentials prioritizing NVIDIA Nemotron OCR, OpenRouter, or OpenAI settings."""
+        key = (
+            (llm_api_key or "").strip()
+            or os.getenv("NVIDIA_API_KEY")
+            or os.getenv("LLM_API_KEY")
+            or os.getenv("OPENROUTER_API_KEY")
+            or os.getenv("OPENAI_API_KEY")
+            or ""
+        )
+        base = (
+            (llm_base_url or "").strip()
+            or os.getenv("NVIDIA_BASE_URL")
+            or os.getenv("LLM_BASE_URL")
+            or os.getenv("OPENROUTER_BASE_URL")
+            or os.getenv("OPENAI_BASE_URL")
+            or ("https://integrate.api.nvidia.com/v1" if key.startswith("nvapi-") else "https://openrouter.ai/api/v1")
+        )
+        model = (
+            (llm_model or "").strip()
+            or os.getenv("NVIDIA_MODEL")
+            or os.getenv("LLM_MODEL")
+            or os.getenv("OPENROUTER_MODEL")
+            or os.getenv("OPENAI_MODEL")
+            or ("nvidia/nemotron-nano-12b-v2-vl" if (key.startswith("nvapi-") or "nvidia.com" in base) else "openai/gpt-4o-mini")
+        )
         return key, base, model
 
     def _create_instance(

@@ -132,6 +132,7 @@ MarkItDown Studio permite extraer texto de imágenes mediante proveedores compat
 
 | Proveedor | Base URL | Modelos Recomendados |
 | :--- | :--- | :--- |
+| **NVIDIA NIM (Build)** | `https://integrate.api.nvidia.com/v1` | `nvidia/nemotron-nano-12b-v2-vl`, `nvidia/nemotron-parse` |
 | **OpenRouter** | `https://openrouter.ai/api/v1` | `openai/gpt-4o-mini`, `qwen/qwen-2-vl-72b-instruct` |
 | **OpenAI** | `https://api.openai.com/v1` | `gpt-4o-mini`, `gpt-4o` |
 | **Ollama (Local)** | `http://localhost:11434/v1` | `llava`, `llama3.2-vision` |

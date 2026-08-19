@@ -329,24 +329,24 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>API Key (OpenRouter / OpenAI)</label>
-          <input type="password" id="setting-llm-key" class="app-input" placeholder="sk-or-v1-...">
+          <label>API Key (NVIDIA / OpenRouter / OpenAI)</label>
+          <input type="password" id="setting-llm-key" class="app-input" placeholder="nvapi-... o sk-or-v1-...">
           <span class="form-help">Clave API para OCR de imágenes, transcripción y visión multimodal.</span>
         </div>
 
         <div class="form-group">
           <label>LLM Base URL</label>
-          <input type="text" id="setting-llm-base" class="app-input" placeholder="https://openrouter.ai/api/v1">
-          <span class="form-help">Usa <code>https://openrouter.ai/api/v1</code> para OpenRouter o <code>http://localhost:11434/v1</code> para Ollama.</span>
+          <input type="text" id="setting-llm-base" class="app-input" placeholder="https://integrate.api.nvidia.com/v1">
+          <span class="form-help">Usa <code>https://integrate.api.nvidia.com/v1</code> (NVIDIA), <code>https://openrouter.ai/api/v1</code> (OpenRouter) o <code>http://localhost:11434/v1</code> (Ollama).</span>
         </div>
 
         <div class="form-group">
           <label>Modelo de Visión / LLM</label>
-          <input type="text" id="setting-llm-model" class="app-input" placeholder="openai/gpt-4o-mini">
+          <input type="text" id="setting-llm-model" class="app-input" placeholder="nvidia/nemotron-nano-12b-v2-vl">
           <div style="display: flex; gap: 0.35rem; margin-top: 0.35rem; flex-wrap: wrap;">
-            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='openai/gpt-4o-mini'">gpt-4o-mini</button>
-            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='qwen/qwen-2-vl-72b-instruct'">qwen-2-vl-72b</button>
-            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='google/gemini-2.0-flash-001'">gemini-2.0-flash</button>
+            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='nvidia/nemotron-nano-12b-v2-vl'; document.getElementById('setting-llm-base').value='https://integrate.api.nvidia.com/v1'">⚡ nvidia/nemotron-ocr</button>
+            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='openai/gpt-4o-mini'; document.getElementById('setting-llm-base').value='https://openrouter.ai/api/v1'">gpt-4o-mini</button>
+            <button type="button" class="sample-link" onclick="document.getElementById('setting-llm-model').value='qwen/qwen-2-vl-72b-instruct'; document.getElementById('setting-llm-base').value='https://openrouter.ai/api/v1'">qwen-2-vl-72b</button>
           </div>
         </div>
 
