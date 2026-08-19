@@ -143,18 +143,75 @@ Puedes configurar tu clave en el archivo `.env` o directamente en el modal de **
 
 ## 🔌 Servidor MCP (Model Context Protocol)
 
-MarkItDown Studio incluye un **servidor MCP nativo** (`mcp_server.py`) que permite a asistentes como **Claude Desktop**, **Cursor**, **Gemini IDE / Antigravity**, **Cline** y **Roo Code** convertir archivos locales y páginas web a Markdown directamente en sus chats.
+MarkItDown Studio incluye un **servidor MCP nativo** con soporte para transporte **STDIO (Local)** y **SSE / Streamable HTTP (Remoto)** montado directamente en `/sse`. Permite a asistentes de IA como **Codex**, **Claude Desktop**, **Antigravity IDE**, **Cursor**, **Cline** y **Roo Code** convertir documentos, imágenes con OCR y URLs de forma transparente.
 
 ### 🛠️ Herramientas MCP Disponibles (Tools):
-- `convert_document(file_path)`: Convierte cualquier archivo local (PDF, Word, Excel, PPTX, MP3, ZIP, etc.) a Markdown.
-- `convert_image_ocr(image_path, custom_prompt)`: Transcribe texto y tablas de imágenes con modelos de visión.
+- `convert_document(file_path)`: Convierte cualquier archivo local (PDF, Word, Excel, PPTX, MP3, ZIP, etc.) a Markdown limpio.
+- `convert_image_ocr(image_path, custom_prompt)`: Transcribe texto y tablas de imágenes con modelos de visión (NVIDIA Nemotron / OpenRouter).
 - `convert_url(url)`: Convierte páginas web y transcripciones de YouTube a Markdown.
 - `analyze_document_metrics(file_path)`: Retorna métricas detalladas (palabras, líneas, caracteres y estimación de tokens LLM).
 - `get_supported_formats()`: Lista de todas las extensiones soportadas.
 
-### ⚙️ Configuración en Clientes MCP:
+---
 
-#### 1. Claude Desktop (`claude_desktop_config.json`):
+### 🌐 Conexión Remota (Servidor / Docker vía SSE / HTTP)
+
+Cuando MarkItDown Studio se ejecuta en un servidor remoto o contenedor Docker (por ejemplo en el puerto `8000`), el endpoint MCP SSE queda disponible en:
+```text
+http://<IP_O_DOMINIO_DEL_SERVIDOR>:8000/sse
+```
+
+#### A. En Codex (Modo Remoto / Docker):
+1. Abre la configuración de **Conectar con un MCP personalizado**.
+2. **Nombre**: `markitdown`
+3. **Tipo**: Selecciona **`HTTP secuenciable`** (SSE).
+4. **URL del servidor**: `http://<IP_DEL_SERVIDOR>:8000/sse`
+
+#### B. En Antigravity IDE / Cursor (Modo Remoto):
+```json
+{
+  "mcpServers": {
+    "markitdown": {
+      "serverUrl": "http://<IP_DEL_SERVIDOR>:8000/sse"
+    }
+  }
+}
+```
+
+---
+
+### 💻 Conexión Local (STDIO)
+
+#### 1. Codex (Modo Local):
+| Campo | Valor |
+| :--- | :--- |
+| **Nombre** | `markitdown` |
+| **Tipo** | `STDIO` |
+| **Comando para iniciar** | `C:\ruta\a\markitdown_studio\.venv\Scripts\python.exe` |
+| **Argumentos** | `C:\ruta\a\markitdown_studio\mcp_server.py` |
+| **Directorio de trabajo** | `C:\ruta\a\markitdown_studio` |
+| **Variables de entorno** | Clave: `NVIDIA_API_KEY` (o `OPENROUTER_API_KEY`) / Valor: `tu_clave` |
+
+#### 2. Antigravity IDE (`~/.gemini/config/mcp_config.json`):
+```json
+{
+  "mcpServers": {
+    "markitdown": {
+      "command": "C:\\ruta\\a\\markitdown_studio\\.venv\\Scripts\\python.exe",
+      "args": [
+        "C:\\ruta\\a\\markitdown_studio\\mcp_server.py"
+      ],
+      "env": {
+        "NVIDIA_API_KEY": "tu_clave_nvidia_o_openrouter",
+        "NVIDIA_BASE_URL": "https://integrate.api.nvidia.com/v1",
+        "NVIDIA_MODEL": "nvidia/nemotron-nano-12b-v2-vl"
+      }
+    }
+  }
+}
+```
+
+#### 3. Claude Desktop (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
@@ -164,31 +221,14 @@ MarkItDown Studio incluye un **servidor MCP nativo** (`mcp_server.py`) que permi
         "C:\\ruta\\a\\markitdown_studio\\mcp_server.py"
       ],
       "env": {
-        "OPENROUTER_API_KEY": "tu_clave_aqui"
+        "NVIDIA_API_KEY": "tu_clave_aqui"
       }
     }
   }
 }
 ```
 
-#### 2. Antigravity IDE (`~/.gemini/config/mcp_config.json`):
-```json
-{
-  "mcpServers": {
-    "markitdown": {
-      "command": "C:\\Users\\info-analista8\\Documents\\python_dev\\markitdown\\.venv\\Scripts\\python.exe",
-      "args": [
-        "C:\\Users\\info-analista8\\Documents\\python_dev\\markitdown\\mcp_server.py"
-      ],
-      "env": {
-        "OPENROUTER_API_KEY": "tu_clave_aqui"
-      }
-    }
-  }
-}
-```
-
-#### 3. Cursor IDE (`.cursor/mcp.json`):
+#### 4. Cursor IDE (`.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
