@@ -37,10 +37,36 @@ service = MarkItDownService()
 # Mount MCP SSE Server for remote AI Clients (Codex, Cursor, Claude Desktop, Antigravity)
 try:
     from mcp_server import mcp as mcp_server_instance
-    app.mount("/sse", mcp_server_instance.sse_app())
-    print("[MCP] Servidor MCP SSE montado en /sse")
+    # sse_app provides /sse (stream) and /messages (handler)
+    app.mount("/mcp", mcp_server_instance.sse_app())
+    print("[MCP] Servidor MCP SSE montado en /mcp/sse")
 except Exception as e:
     print(f"[Warning] No se pudo montar el servidor MCP SSE: {e}")
+
+@app.get("/sse")
+@app.get("/mcp")
+async def mcp_info():
+    """Information endpoint for MCP server status and client connection details."""
+    return {
+        "status": "online",
+        "service": "MarkItDown Studio MCP Server",
+        "protocol": "Model Context Protocol (MCP)",
+        "transport": "SSE (Server-Sent Events)",
+        "sse_endpoint": "/mcp/sse",
+        "messages_endpoint": "/mcp/messages",
+        "tools": [
+            "convert_document",
+            "convert_image_ocr",
+            "convert_url",
+            "analyze_document_metrics",
+            "get_supported_formats"
+        ],
+        "connection_guide": {
+            "codex": "Selecciona 'HTTP secuenciable' e ingresa la URL: http://<host>:8000/mcp/sse",
+            "antigravity": "Configura serverUrl: http://<host>:8000/mcp/sse en mcp_config.json",
+            "cursor": "Configura serverUrl: http://<host>:8000/mcp/sse en .cursor/mcp.json"
+        }
+    }
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 STATIC_DIR.mkdir(parents=True, exist_ok=True)

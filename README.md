@@ -156,23 +156,22 @@ MarkItDown Studio incluye un **servidor MCP nativo** con soporte para transporte
 
 ### 🌐 Conexión Remota (Servidor / Docker vía SSE / HTTP)
 
-Cuando MarkItDown Studio se ejecuta en un servidor remoto o contenedor Docker (por ejemplo en el puerto `8000`), el endpoint MCP SSE queda disponible en:
-```text
-http://<IP_O_DOMINIO_DEL_SERVIDOR>:8000/sse
-```
+Cuando MarkItDown Studio se ejecuta en un servidor remoto o contenedor Docker (por ejemplo en el puerto `8000`), los endpoints MCP quedan disponibles en:
+- **Stream de conexión MCP**: `http://<IP_O_DOMINIO_DEL_SERVIDOR>:8000/mcp/sse`
+- **Panel de estado en el navegador**: `http://<IP_O_DOMINIO_DEL_SERVIDOR>:8000/sse`
 
 #### A. En Codex (Modo Remoto / Docker):
 1. Abre la configuración de **Conectar con un MCP personalizado**.
 2. **Nombre**: `markitdown`
 3. **Tipo**: Selecciona **`HTTP secuenciable`** (SSE).
-4. **URL del servidor**: `http://<IP_DEL_SERVIDOR>:8000/sse`
+4. **URL del servidor**: `http://<IP_DEL_SERVIDOR>:8000/mcp/sse`
 
 #### B. En Antigravity IDE / Cursor (Modo Remoto):
 ```json
 {
   "mcpServers": {
     "markitdown": {
-      "serverUrl": "http://<IP_DEL_SERVIDOR>:8000/sse"
+      "serverUrl": "http://<IP_DEL_SERVIDOR>:8000/mcp/sse"
     }
   }
 }
