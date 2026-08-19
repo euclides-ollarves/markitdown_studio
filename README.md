@@ -170,7 +170,24 @@ MarkItDown Studio incluye un **servidor MCP nativo** (`mcp_server.py`) que permi
 }
 ```
 
-#### 2. Cursor IDE (`.cursor/mcp.json`):
+#### 2. Antigravity IDE (`~/.gemini/config/mcp_config.json`):
+```json
+{
+  "mcpServers": {
+    "markitdown": {
+      "command": "C:\\Users\\info-analista8\\Documents\\python_dev\\markitdown\\.venv\\Scripts\\python.exe",
+      "args": [
+        "C:\\Users\\info-analista8\\Documents\\python_dev\\markitdown\\mcp_server.py"
+      ],
+      "env": {
+        "OPENROUTER_API_KEY": "tu_clave_aqui"
+      }
+    }
+  }
+}
+```
+
+#### 3. Cursor IDE (`.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
