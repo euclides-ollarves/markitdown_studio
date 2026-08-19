@@ -34,12 +34,14 @@ app.add_middleware(
 
 service = MarkItDownService()
 
-# Mount MCP SSE Server for remote AI Clients (Codex, Cursor, Claude Desktop, Antigravity)
+# Mount MCP SSE Server for remote AI Clients (Codex, OpenCode, Cursor, Claude Desktop, Antigravity)
 try:
     from mcp_server import mcp as mcp_server_instance
-    # sse_app provides /sse (stream) and /messages (handler)
-    app.mount("/mcp", mcp_server_instance.sse_app())
-    print("[MCP] Servidor MCP SSE montado en /mcp/sse")
+    from mcp.server.transport_security import TransportSecuritySettings
+    # Allow remote network IPs (e.g. 192.168.1.97) and custom domains without 421 Invalid Host header
+    security_settings = TransportSecuritySettings(enable_dns_rebinding_protection=False)
+    app.mount("/mcp", mcp_server_instance.sse_app(transport_security=security_settings))
+    print("[MCP] Servidor MCP SSE montado en /mcp/sse (Acceso por IP de red local y remota habilitado)")
 except Exception as e:
     print(f"[Warning] No se pudo montar el servidor MCP SSE: {e}")
 
