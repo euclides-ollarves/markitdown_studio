@@ -14,11 +14,11 @@ Convierte documentos, hojas de cálculo, presentaciones, imágenes con OCR y vid
 
 <br/>
 
-<img src="assets/screenshots/app_preview.jpg" alt="MarkItDown Studio UI Preview" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);" />
+<img src="assets/screenshots/main_screen.png" alt="MarkItDown Studio - Pantalla Principal" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);" />
 
 <br/>
 
-[Características](#-características) • [Instalación Rápida](#-inicio-rápido) • [Docker](#-ejecución-con-docker) • [Configuración de IA](#-configuración-de-ia-y-visión-ocr) • [API REST](#-documentación-de-la-api-rest)
+[Características](#-características) • [Capturas](#-capturas-de-pantalla) • [Instalación Rápida](#-inicio-rápido) • [Docker](#-ejecución-con-docker) • [Configuración de IA](#-configuración-de-ia-y-visión-ocr) • [API REST](#-documentación-de-la-api-rest)
 
 </div>
 
@@ -52,6 +52,28 @@ Convierte documentos, hojas de cálculo, presentaciones, imágenes con OCR y vid
   - Descarga directa de archivos `.md` y exportación a página `.html`.
 - 🎨 **Diseño Glassmorphism Premium**:
   - Tema Oscuro y Tema Claro con persistencia automática en el navegador.
+
+---
+
+## 📸 Capturas de Pantalla
+
+### 🖥️ 1. Interfaz Principal y Zona Drag & Drop
+Carga cualquier documento arrastrando o seleccionando el archivo con detección automática de tipo MIME:
+<p align="center">
+  <img src="assets/screenshots/main_screen.png" alt="Pantalla Principal" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
+</p>
+
+### 👁️ 2. Espacio de Trabajo con Vista Dividida (Split View)
+Visualiza el HTML formateado a la izquierda y el código Markdown fuente a la derecha con métricas de tokens en vivo:
+<p align="center">
+  <img src="assets/screenshots/preview_screen.png" alt="Vista Dividida" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
+</p>
+
+### 📦 3. Convertidor Masivo por Lotes (Batch Mode)
+Convierte múltiples documentos a la vez con barra de progreso y descarga todo en un único archivo comprimido `.zip`:
+<p align="center">
+  <img src="assets/screenshots/batch_converter_screen.png" alt="Modo por Lotes" width="100%" style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
+</p>
 
 ---
 
