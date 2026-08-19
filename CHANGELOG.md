@@ -42,6 +42,10 @@ MarkItDown Studio es una interfaz gráfica moderna (Web GUI) y API REST construi
 ### 🐳 7. Soporte para Docker & Docker Compose
 - Despliegue con un solo comando: `docker compose up --build`.
 
+### 🔌 8. Servidor MCP Nativo (Model Context Protocol)
+- Integración directa para conectar con **Claude Desktop**, **Cursor**, **Gemini IDE / Antigravity**, **Cline** y **Roo Code**.
+- Permite a los agentes de IA invocar herramientas para convertir documentos, imágenes con OCR y URLs directamente dentro de sus prompts.
+
 ---
 
 ## 🛠️ Instalación y Uso Rápido

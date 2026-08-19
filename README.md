@@ -140,6 +140,50 @@ Puedes configurar tu clave en el archivo `.env` o directamente en el modal de **
 
 ---
 
+## 🔌 Servidor MCP (Model Context Protocol)
+
+MarkItDown Studio incluye un **servidor MCP nativo** (`mcp_server.py`) que permite a asistentes como **Claude Desktop**, **Cursor**, **Gemini IDE / Antigravity**, **Cline** y **Roo Code** convertir archivos locales y páginas web a Markdown directamente en sus chats.
+
+### 🛠️ Herramientas MCP Disponibles (Tools):
+- `convert_document(file_path)`: Convierte cualquier archivo local (PDF, Word, Excel, PPTX, MP3, ZIP, etc.) a Markdown.
+- `convert_image_ocr(image_path, custom_prompt)`: Transcribe texto y tablas de imágenes con modelos de visión.
+- `convert_url(url)`: Convierte páginas web y transcripciones de YouTube a Markdown.
+- `analyze_document_metrics(file_path)`: Retorna métricas detalladas (palabras, líneas, caracteres y estimación de tokens LLM).
+- `get_supported_formats()`: Lista de todas las extensiones soportadas.
+
+### ⚙️ Configuración en Clientes MCP:
+
+#### 1. Claude Desktop (`claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "markitdown": {
+      "command": "python",
+      "args": [
+        "C:\\ruta\\a\\markitdown_studio\\mcp_server.py"
+      ],
+      "env": {
+        "OPENROUTER_API_KEY": "tu_clave_aqui"
+      }
+    }
+  }
+}
+```
+
+#### 2. Cursor IDE (`.cursor/mcp.json`):
+```json
+{
+  "mcpServers": {
+    "markitdown": {
+      "command": "python",
+      "args": ["mcp_server.py"]
+    }
+  }
+}
+```
+
+---
+
 ## 📡 Documentación de la API REST
 
 MarkItDown Studio incluye una API REST completa construida con FastAPI:
@@ -157,13 +201,14 @@ MarkItDown Studio incluye una API REST completa construida con FastAPI:
 
 ## 🧪 Pruebas Automatizadas
 
-Ejecuta el conjunto de pruebas para validar los conversores:
+Ejecuta el conjunto de pruebas para validar los conversores y el servidor MCP:
 
 ```bash
 python tests/test_gui_conversion.py
 python tests/test_xlsx_conversion.py
 python tests/test_docx_pptx.py
 python tests/test_image_conversion.py
+python tests/test_mcp_server.py
 ```
 
 ---
