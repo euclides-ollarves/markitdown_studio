@@ -34,6 +34,14 @@ app.add_middleware(
 
 service = MarkItDownService()
 
+# Mount MCP SSE Server for remote AI Clients (Codex, Cursor, Claude Desktop, Antigravity)
+try:
+    from mcp_server import mcp as mcp_server_instance
+    app.mount("/sse", mcp_server_instance.sse_app())
+    print("[MCP] Servidor MCP SSE montado en /sse")
+except Exception as e:
+    print(f"[Warning] No se pudo montar el servidor MCP SSE: {e}")
+
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
 
