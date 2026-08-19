@@ -12,6 +12,12 @@
 
 Convierte documentos, hojas de cálculo, presentaciones, imágenes con OCR y videos de YouTube a **Markdown limpio** en segundos con previsualización en tiempo real.
 
+<br/>
+
+<img src="assets/screenshots/app_preview.jpg" alt="MarkItDown Studio UI Preview" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);" />
+
+<br/>
+
 [Características](#-características) • [Instalación Rápida](#-inicio-rápido) • [Docker](#-ejecución-con-docker) • [Configuración de IA](#-configuración-de-ia-y-visión-ocr) • [API REST](#-documentación-de-la-api-rest)
 
 </div>
